@@ -6,7 +6,7 @@ from launch.conditions import IfCondition
 import launch.launch_description_sources
 from launch.substitutions import PythonExpression
 from ament_index_python.packages import get_package_share_directory
-
+from launch_ros.actions import Node
 
 def generate_launch_description():
     launch_file_dir = os.path.join(get_package_share_directory('aws_robomaker_bookstore_world'), 'launch')
@@ -45,6 +45,13 @@ def generate_launch_description():
         }.items()
     )
 
+    static_transform_publisher_node = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='link1_broadcaster',
+        arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'odom'],
+        output='screen',
+    )
 
     ld = launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
@@ -58,7 +65,8 @@ def generate_launch_description():
         gazebo_server,
         gazebo_client,
         robot_state_publisher_cmd,
-        spawn_turtlebot_cmd
+        spawn_turtlebot_cmd,
+        static_transform_publisher_node 
     ])
     return ld
 

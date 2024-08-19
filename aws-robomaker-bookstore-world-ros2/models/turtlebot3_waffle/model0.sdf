@@ -477,6 +477,7 @@
 
       <ros>
         <namespace>/tb3_0</namespace>
+        <!-- <remapping>~/out:=/tb3_0/tf</remapping> -->
       </ros>
 
       <update_rate>30</update_rate>

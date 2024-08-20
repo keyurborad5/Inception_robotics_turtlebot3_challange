@@ -1,11 +1,11 @@
-# Inception_turtlebot_challange
+# Inception_turtlebot_challenge
 
 
 ### Authors:
 - Keyur Borad (kborad@umd.edu)- 120426049
 
-### Challange
- This was the Turtlebot3 challange and the instructions were as follows:
+### Challenge
+ This was the Turtlebot3 challenge and the instructions were as follows:
  
    1. Load the aws-robomaker-bookstore-world (found here: https://github.com/aws-robotics/aws-robomaker-bookstore-world) into Gazebo.
    2. Map the environment using a robot of choice. The robot must be equipped with a LiDAR, and RGB or RGB-D camera to perform this project’s tasks.
@@ -61,3 +61,13 @@ Constraints
 ### Maps
     Maps by me are stored in
     aws-robomaker-bookstore-world-ros2/maps/turtlebot3_waffle
+
+
+### Identifying empty space for random spawning
+   1. Identified free space from the my_map.pgm
+   2. grayscaled and applied binary thresold
+   3. applied Erosion morph to get the feasible space (to avoid stood legs)
+   4. appended the pixels in white in a list
+   5. Applied coordinate transformation to get pixel value in map coordinate
+   6. Scaled the pixel coordinate values to actual map values by multiplying with resolution
+   7. made text file of the list and randomly selected coordinate to spawn my various objects

@@ -31,6 +31,7 @@ def generate_launch_description():
             tuples_list.append(tup)
     # print("Tuples List:", tuples_list)
     pos = random.sample(tuples_list, 3)
+    print(pos)
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     x_pose = LaunchConfiguration('x_pose', default='0.00')
@@ -89,11 +90,7 @@ def generate_launch_description():
         'model', default_value=os.environ.get('TURTLEBOT3_MODEL', 'burger'),
         description='Model type [burger, waffle, waffle_pi]'
     )
-    def generate_random_pose():
-        x = random.uniform(-7.5, 7.5)
-        y = random.uniform(-6.5, 7.0)
-        return x, y
-
+    
 
     declare_first_tb3_arg = DeclareLaunchArgument('first_tb3', default_value='tb3_0')
     declare_second_tb3_arg = DeclareLaunchArgument('second_tb3', default_value='tb3_1')
@@ -179,12 +176,17 @@ def generate_launch_description():
             )
         ])
     
-    ## Red Cubes
+    ## spawn Red Cubes
     spawn_red_cubes = launch.actions.IncludeLaunchDescription(
         launch.launch_description_sources.PythonLaunchDescriptionSource(
             os.path.join(launch_file_dir, 'spawn_redcubes.launch.py'))
     )
 
+    ## spawn HUMAN
+    spawn_human = launch.actions.IncludeLaunchDescription(
+        launch.launch_description_sources.PythonLaunchDescriptionSource(
+            os.path.join(launch_file_dir, 'spawn_human.launch.py'))
+    )
 
     # Create the LaunchDescription
     return LaunchDescription([
@@ -210,6 +212,7 @@ def generate_launch_description():
         declare_third_tb3_z_pos_arg,
         declare_third_tb3_yaw_arg,
         spawn_red_cubes,
+        spawn_human,
         # gazebo_launch,
         
 

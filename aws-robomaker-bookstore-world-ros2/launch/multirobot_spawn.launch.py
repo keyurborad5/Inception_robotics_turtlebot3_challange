@@ -21,10 +21,10 @@ def generate_launch_description():
     declare_gui=DeclareLaunchArgument(
             name='gui',
             default_value='false')
-    file_path = os.path.join(launch_file_dir,'tuples.txt')
+    free_space_file_path = os.path.join(launch_file_dir,'tuples.txt')
     tuples_list = []
 
-    with open(file_path, 'r') as file:
+    with open(free_space_file_path, 'r') as file:
         for line in file:
             line = line.strip()
             tup = eval(line)
@@ -178,6 +178,13 @@ def generate_launch_description():
                 output='screen'
             )
         ])
+    
+    ## Red Cubes
+    spawn_red_cubes = launch.actions.IncludeLaunchDescription(
+        launch.launch_description_sources.PythonLaunchDescriptionSource(
+            os.path.join(launch_file_dir, 'spawn_redcubes.launch.py'))
+    )
+
 
     # Create the LaunchDescription
     return LaunchDescription([
@@ -202,6 +209,7 @@ def generate_launch_description():
         declare_third_tb3_y_pos_arg,
         declare_third_tb3_z_pos_arg,
         declare_third_tb3_yaw_arg,
+        spawn_red_cubes,
         # gazebo_launch,
         
 

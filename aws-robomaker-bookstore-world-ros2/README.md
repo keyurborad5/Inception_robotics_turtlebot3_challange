@@ -10,13 +10,13 @@
     cd YOUR_DIRECTORY
     ```
 2. Setting up in .bashrc
-    '''
+    ```
     Add
     export TURTLEBOT3_MODEL=waffle
     export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:<your absolute path to the models folder inside pacakage>
     Example:
 	export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/keyur/incep/inception_challange_ws/src/aws-robomaker-bookstore-world-ros2/models
-    '''
+    ```
 2. Build the package:
     ```
     rosdep update

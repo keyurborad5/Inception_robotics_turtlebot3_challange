@@ -1,4 +1,10 @@
 # Inception_turtlebot_challange
+
+
+### Authors:
+- Keyur Borad (kborad@umd.edu)- 120426049
+
+### Challange
  This was the Turtlebot3 challange and the instructions were as follows:
  
    1. Load the aws-robomaker-bookstore-world (found here: https://github.com/aws-robotics/aws-robomaker-bookstore-world) into Gazebo.
@@ -15,3 +21,43 @@ Constraints
    2. Use Nav2’s behavior trees for navigation.
    3. Use a deep learning model such as Yolo for detecting the human.
    4. Use any accurate and efficient method to detect the red cubes. 
+
+
+
+
+### Instructions to Run the Code:
+1. Download the package in your workspace and navigate to the workspace directory
+    ```
+    cd YOUR_workspace_directory/src
+    ```
+2. Setting up in .bashrc
+	Add these exports to your bashrc
+   ```
+    export TURTLEBOT3_MODEL=waffle
+    export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:<your absolute path to the models folder inside pacakage>
+	```
+   Example:
+   ```
+	export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/keyur/incep/inception_challange_ws/src/aws-robomaker-bookstore-world-ros2/models
+    ```
+   
+2. Build the package:
+    ```
+    cd YOUR_workspace_directory
+    rosdep update
+    rosdep install --from-paths . --ignore-src -r -y
+    colcon build
+    ```
+3. For Spawning environment as per the challange
+    ```
+    source install/setup.sh
+    ros2 launch aws_robomaker_bookstore_world multirobot_spawn.launch.py gui:=true
+    ```
+4. For spawning one Turtlebot3 at origin
+    ```
+    source install/setup.sh
+    ros2 launch aws_robomaker_bookstore_world bookstore.launch.py gui:=true
+    ```
+### Maps
+    Maps by me are stored in
+    aws-robomaker-bookstore-world-ros2/maps/turtlebot3_waffle

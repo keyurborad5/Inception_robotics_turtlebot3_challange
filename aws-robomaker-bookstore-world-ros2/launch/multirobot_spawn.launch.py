@@ -21,6 +21,7 @@ def generate_launch_description():
     declare_gui=DeclareLaunchArgument(
             name='gui',
             default_value='false')
+   #Generating Random Location from the list of coordinates
     free_space_file_path = os.path.join(launch_file_dir,'tuples.txt')
     tuples_list = []
 
@@ -29,14 +30,12 @@ def generate_launch_description():
             line = line.strip()
             tup = eval(line)
             tuples_list.append(tup)
-    # print("Tuples List:", tuples_list)
     pos = random.sample(tuples_list, 3)
     print(pos)
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    x_pose = LaunchConfiguration('x_pose', default='0.00')
-    y_pose = LaunchConfiguration('y_pose', default='0.0')
-    
+   
+    #Getting urdf file
     urdf_file_name = 'turtlebot3_' + TURTLEBOT3_MODEL + '.urdf'
     urdf_path = os.path.join(
         get_package_share_directory('aws_robomaker_bookstore_world'),
@@ -45,7 +44,7 @@ def generate_launch_description():
 
     with open(urdf_path, 'r') as infp:
         robot_desc = infp.read()
-
+    #getting Turtlebot model file
     model_folder = 'turtlebot3_' + TURTLEBOT3_MODEL
     sdf_path0 = os.path.join(
         get_package_share_directory('aws_robomaker_bookstore_world'),
@@ -66,6 +65,7 @@ def generate_launch_description():
         'model2.sdf'
     )
 
+    #Launching GAZEBO
     gazebo_ros = get_package_share_directory('gazebo_ros')
     gazebo_client = IncludeLaunchDescription(
 	PythonLaunchDescriptionSource(
@@ -78,20 +78,8 @@ def generate_launch_description():
     )
 
     
-    # static_transform_publisher_node = Node(
-    #     package='tf2_ros',
-    #     executable='static_transform_publisher',
-    #     name='link1_broadcaster',
-    #     arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'odom'],
-    #     output='screen',
-    # )
-    # Declare arguments
-    declare_model_arg = DeclareLaunchArgument(
-        'model', default_value=os.environ.get('TURTLEBOT3_MODEL', 'burger'),
-        description='Model type [burger, waffle, waffle_pi]'
-    )
     
-
+    # Decalring 3 turtlebot and spawn loaction
     declare_first_tb3_arg = DeclareLaunchArgument('first_tb3', default_value='tb3_0')
     declare_second_tb3_arg = DeclareLaunchArgument('second_tb3', default_value='tb3_1')
     declare_third_tb3_arg = DeclareLaunchArgument('third_tb3', default_value='tb3_2')
@@ -111,20 +99,7 @@ def generate_launch_description():
     declare_third_tb3_z_pos_arg = DeclareLaunchArgument('third_tb3_z_pos', default_value='0.01')
     declare_third_tb3_yaw_arg = DeclareLaunchArgument('third_tb3_yaw', default_value='0.0')
     
-    # Include the Gazebo empty_world launch file
-    gazebo_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(
-            get_package_share_directory('gazebo_ros'), 'launch', 'empty_world.launch.py')),
-        launch_arguments={
-            'world_name': os.path.join(
-                get_package_share_directory('turtlebot3_gazebo'), 'worlds', 'turtlebot3_house.world'),
-            'paused': 'false',
-            'use_sim_time': 'true',
-            'gui': 'true',
-            'headless': 'false',
-            'debug': 'false'
-        }.items()
-    )
+    
 
 
 
@@ -190,11 +165,10 @@ def generate_launch_description():
 
     # Create the LaunchDescription
     return LaunchDescription([
-        # declare_model_arg,
+
         declare_world,
         gazebo_server,
         gazebo_client,
-        # static_transform_publisher_node,
         declare_gui,
         declare_first_tb3_arg,
         declare_second_tb3_arg,
@@ -213,7 +187,6 @@ def generate_launch_description():
         declare_third_tb3_yaw_arg,
         spawn_red_cubes,
         spawn_human,
-        # gazebo_launch,
         
 
         create_tb3_group(LaunchConfiguration('first_tb3'), 
